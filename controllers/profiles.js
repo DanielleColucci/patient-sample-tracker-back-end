@@ -28,4 +28,21 @@ async function addPhoto(req, res) {
   }
 }
 
-module.exports = { index, addPhoto }
+async function updateAuthorization(req, res) {
+  try {
+    const thisUser = await Profile.findByPk(req.user.profile.id)
+    if (thisUser.admin) {
+      const profile = await Profile.findByPk(req.params.id)
+      profile.authorized = true
+      await profile.save()
+      res.status(201).json(profile)
+    } else {
+      throw new Error('no admin status')
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ err: error })
+  }
+}
+
+module.exports = { index, addPhoto, updateAdmin, updateAuthorization }

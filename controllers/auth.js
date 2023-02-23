@@ -11,8 +11,8 @@ async function signup(req, res) {
     } else {
       const user = await User.create(req.body)
       req.body.userId = user.id
-      req.body.authorized = false
-      req.body.admin = false
+      if (!req.body.authorized) req.body.authorized = false
+      if (!req.body.admin) req.body.admin = false
       const profile = await Profile.create(req.body)
       user.dataValues.profile = { id: profile.dataValues.id }
       const token = createJWT(user)

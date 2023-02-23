@@ -13,5 +13,6 @@ router.get('/', checkAuth, samplesCtrl.index)
 router.post('/', checkAuth, samplesCtrl.create)
 router.get('/:id', checkAuth, samplesCtrl.show)
 router.put('/:id', checkAuth, samplesCtrl.update)
+router.delete('/:id', checkAuth, samplesCtrl.delete)
 
 module.exports = router

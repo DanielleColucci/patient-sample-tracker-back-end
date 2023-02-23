@@ -59,9 +59,25 @@ async function update(req, res) {
   }
 }
 
+async function deleteSample(req, res) {
+  try {
+    const sample = await Sample.findByPk(req.params.id)
+    if (sample.profileId === req.user.profile.id) {
+      await sample.destroy()
+      res.status(200).json(sample)
+    } else {
+      throw new Error('not authorized')
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ err: error })
+  }
+}
+
 module.exports = {
   index,
   create,
   show,
   update, 
+  delete: deleteSample,
 }

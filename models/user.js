@@ -47,6 +47,14 @@ module.exports = (sequelize, DataTypes) => {
         return () => this.getDataValue('password')
       },
     },
+    authorized: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    }
   },
   {
     sequelize,

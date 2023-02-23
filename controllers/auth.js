@@ -9,10 +9,10 @@ async function signup(req, res) {
     } else if (!process.env.SECRET) {
       throw new Error('no SECRET in .env file')
     } else {
-      const user = await User.create(req.body)
-      req.body.userId = user.id
       if (!req.body.authorized) req.body.authorized = false
       if (!req.body.admin) req.body.admin = false
+      const user = await User.create(req.body)
+      req.body.userId = user.id
       const profile = await Profile.create(req.body)
       user.dataValues.profile = { id: profile.dataValues.id }
       const token = createJWT(user)

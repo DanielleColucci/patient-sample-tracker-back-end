@@ -1,4 +1,18 @@
-const { Sample } = require('../models')
+const { Sample, Profile } = require('../models')
+
+async function index(req, res) {
+  try {
+    const samples = await Sample.findAll(
+      {
+        include: [{ model: Profile, as: 'Profile'}]
+      }
+    )
+    res.status(200).json(samples)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
+}
 
 async function create(req, res) {
   try {
@@ -12,5 +26,6 @@ async function create(req, res) {
 }
 
 module.exports = {
+  index,
   create,
 }

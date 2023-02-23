@@ -33,7 +33,7 @@ async function updateAuthorization(req, res) {
     const thisUser = await Profile.findByPk(req.user.profile.id)
     if (thisUser.admin) {
       const profile = await Profile.findByPk(req.params.id)
-      profile.authorized = true
+      profile.authorized = !profile.authorized
       await profile.save()
       res.status(201).json(profile)
     } else {
@@ -51,7 +51,7 @@ async function updateAdmin(req, res) {
     if (thisUser.admin) {
       const profile = await Profile.findByPk(req.params.id)
       if (profile.authorized) {
-        profile.admin = true
+        profile.admin = !profile.admin
         await profile.save()
         res.status(201).json(profile)
       } else {

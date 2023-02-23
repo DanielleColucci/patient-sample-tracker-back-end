@@ -23,12 +23,12 @@ module.exports = {
       },
       cellLine: {
         type: Sequelize.ENUM('In Process', 'Finished', 'Failed', 'NA'),
-        defaultValue: 'N/A',
+        defaultValue: 'NA',
         allowNull: false
       },
       PDXModel: {
         type: Sequelize.ENUM('In Process', 'Finished', 'Failed', 'NA'),
-        defaultValue: 'N/A',
+        defaultValue: 'NA',
         allowNull: false
       },
       profileId: {

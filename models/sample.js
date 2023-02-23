@@ -27,13 +27,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     cellLine: {
-      type: DataTypes.ENUM('In Process', 'Finished', 'Failed', 'N/A'),
-      defaultValue: 'N/A',
+      type: DataTypes.ENUM('In Process', 'Finished', 'Failed', 'NA'),
+      defaultValue: 'NA',
       allowNull: false,
     },
     PDXModel: {
       type: DataTypes.ENUM('In Process', 'Finished', 'Failed', 'NA'),
-      defaultValue: 'N/A',
+      defaultValue: 'NA',
       allowNull: false
     },
     profileId: {

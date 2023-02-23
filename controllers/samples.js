@@ -45,16 +45,18 @@ async function update(req, res) {
   try {
     const thisUser = await Profile.findByPk(req.user.profile.id)
     if (thisUser.authorized) {
-      const sample = await Sample.update(
-        req.body,
-        { where: { id: req.params.id }, returning: true}
-      )
-      res.status(200).json(sample)
+      const sample = await Sample.findByPk(req.params.id)
+      if (sample.profileId === req.user.profile.id) {
+        sample.set(req.body)
+        res.status(200).json(sample)
+      } else {
+        throw new Error('not authorized')
+      }
     } else {
-      throw new error('not authorized')
+      throw new Error('not authorized')
     }
   } catch (error) {
-    console.log(error);
+    console.log(error)
     res.status(500).json({ err: error })
   }
 }

@@ -11,5 +11,6 @@ const { decodeUserFromToken, checkAuth } = middleware
 router.use(decodeUserFromToken)
 router.get('/', checkAuth, samplesCtrl.index)
 router.post('/', checkAuth, samplesCtrl.create)
+router.get('/:id', checkAuth, samplesCtrl.show)
 
 module.exports = router

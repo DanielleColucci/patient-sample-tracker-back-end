@@ -1,10 +1,9 @@
-const { Profile } = require('../models')
+const { Profile, User } = require('../models')
 const cloudinary = require('cloudinary').v2
 
 async function index(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.authorized) {
+    if (req.user.authorized) {
       const profiles = await Profile.findAll({include: ['samples']})
       res.json(profiles)
     } else {
@@ -18,8 +17,7 @@ async function index(req, res) {
 
 async function show(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.authorized) {
+    if (req.user.authorized) {
       const profile = await Profile.findByPk(req.params.id, {include: ['samples']})
       res.json(profile)
     } else {
@@ -49,12 +47,11 @@ async function addPhoto(req, res) {
 
 async function updateAuthorization(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.admin) {
-      const profile = await Profile.findByPk(req.params.id)
-      profile.authorized = !profile.authorized
-      await profile.save()
-      res.status(201).json(profile)
+    if (req.user.admin) {
+      const user = await User.findByPk(req.params.userId)
+      user.authorized = !user.authorized
+      await user.save()
+      res.status(201).json(user)
     } else {
       throw new Error('no admin status')
     }
@@ -66,16 +63,11 @@ async function updateAuthorization(req, res) {
 
 async function updateAdmin(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.admin) {
-      const profile = await Profile.findByPk(req.params.id)
-      if (profile.authorized) {
-        profile.admin = !profile.admin
-        await profile.save()
-        res.status(201).json(profile)
-      } else {
-        throw new Error('this user is not authorized')
-      }
+    if (req.user.admin) {
+      const user = await User.findByPk(req.params.userId)
+      user.admin = !user.admin
+      await user.save()
+      res.status(201).json(user)
     } else {
       throw new Error('no admin status')
     }

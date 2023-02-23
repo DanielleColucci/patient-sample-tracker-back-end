@@ -16,6 +16,20 @@ async function index(req, res) {
   }
 }
 
+async function show(req, res) {
+  try {
+    const thisUser = await Profile.findByPk(req.user.profile.id)
+    if (thisUser.authorized) {
+      const profile = await Profile.findByPk(req.params.id, {include: ['samples']})
+      res.json(profile)
+    } else {
+      throw new Error('not authorized')
+    }
+  } catch (error) {
+    res.status(500).json({ err: error })
+  }
+}
+
 async function addPhoto(req, res) {
   try {
     const imageFile = req.files.photo.path
@@ -71,4 +85,4 @@ async function updateAdmin(req, res) {
   }
 }
 
-module.exports = { index, addPhoto, updateAdmin, updateAuthorization }
+module.exports = { index, addPhoto, updateAdmin, updateAuthorization, show }

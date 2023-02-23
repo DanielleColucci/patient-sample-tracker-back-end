@@ -2,8 +2,7 @@ const { Sample, Profile } = require('../models')
 
 async function index(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.authorized) {
+    if (req.user.authorized) {
       const samples = await Sample.findAll({include: ['Profile']})
       res.status(200).json(samples)
     } else {
@@ -26,8 +25,7 @@ async function create(req, res) {
 
 async function show(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.authorized) {
+    if (req.user.authorized) {
       const sample = await Sample.findByPk(req.params.id, {include: ['Profile']})
       res.status(200).json(sample)
     } else {
@@ -40,8 +38,7 @@ async function show(req, res) {
 
 async function update(req, res) {
   try {
-    const thisUser = await Profile.findByPk(req.user.profile.id)
-    if (thisUser.authorized) {
+    if (req.user.authorized) {
       const sample = await Sample.findByPk(req.params.id)
       if (sample.profileId === req.user.profile.id) {
         sample.set(req.body)

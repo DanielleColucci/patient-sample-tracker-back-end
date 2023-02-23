@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    authorized: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    }
   },
   {
     sequelize,

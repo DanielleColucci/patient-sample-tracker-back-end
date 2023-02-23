@@ -3,8 +3,13 @@ const cloudinary = require('cloudinary').v2
 
 async function index(req, res) {
   try {
-    const profiles = await Profile.findAll()
-    res.json(profiles)
+    const thisUser = await Profile.findByPk(req.user.profile.id)
+    if (thisUser.authorized) {
+      const profiles = await Profile.findAll({include: ['samples']})
+      res.json(profiles)
+    } else {
+      throw new Error('not authorized')
+    }
   } catch (error) {
     console.log(error)
     res.status(500).json({ err: error })

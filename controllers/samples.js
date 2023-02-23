@@ -41,8 +41,27 @@ async function show(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const thisUser = await Profile.findByPk(req.user.profile.id)
+    if (thisUser.authorized) {
+      const sample = await Sample.update(
+        req.body,
+        { where: { id: req.params.id }, returning: true}
+      )
+      res.status(200).json(sample)
+    } else {
+      throw new error('not authorized')
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ err: error })
+  }
+}
+
 module.exports = {
   index,
   create,
   show,
+  update, 
 }

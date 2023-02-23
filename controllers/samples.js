@@ -2,12 +2,13 @@ const { Sample, Profile } = require('../models')
 
 async function index(req, res) {
   try {
-    const samples = await Sample.findAll(
-      {
-        include: ['Profile']
-      }
-    )
-    res.status(200).json(samples)
+    const thisUser = await Profile.findByPk(req.user.profile.id)
+    if (thisUser.authorized) {
+      const samples = await Sample.findAll({include: ['Profile']})
+      res.status(200).json(samples)
+    } else {
+      throw new error('not authorized')
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json(error)
@@ -31,6 +32,8 @@ async function show(req, res) {
     if (thisUser.authorized) {
       const sample = await Sample.findByPk(req.params.id, {include: ['Profile']})
       res.status(200).json(sample)
+    } else {
+      throw new error('not authorized')
     }
   } catch (error) {
     console.log(error);

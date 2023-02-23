@@ -10,7 +10,6 @@ async function index(req, res) {
       throw new error('not authorized')
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json(error)
   }
 }
@@ -21,7 +20,6 @@ async function create(req, res) {
     const sample = await Sample.create(req.body)
     res.status(200).json(sample)
   } catch (error) {
-    console.log(error);
     res.status(500).json({ err: error })
   }
 }
@@ -36,7 +34,6 @@ async function show(req, res) {
       throw new error('not authorized')
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ err: error })
   }
 }
@@ -56,7 +53,6 @@ async function update(req, res) {
       throw new Error('not authorized')
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({ err: error })
   }
 }
@@ -71,7 +67,6 @@ async function deleteSample(req, res) {
       throw new Error('not authorized')
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ err: error })
   }
 }

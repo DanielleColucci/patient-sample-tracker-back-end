@@ -40,9 +40,13 @@ async function update(req, res) {
   try {
     if (req.user.authorized) {
       const sample = await Sample.findByPk(req.params.id, {include: ['Profile']})
-      sample.set(req.body)
-      sample.save()
-      res.status(200).json(sample)
+      if (sample.profileId === req.user.profile.id || req.user.admin) {
+        sample.set(req.body)
+        sample.save()
+        res.status(200).json(sample)
+      } else {
+        throw new Error('not authorized')
+      }
     } else {
       throw new Error('not authorized')
     }

@@ -4,7 +4,10 @@ const cloudinary = require('cloudinary').v2
 async function index(req, res) {
   try {
     if (req.user.authorized) {
-      const profiles = await Profile.findAll({include: ['samples']})
+      const profiles = await Profile.findAll({include: [
+        'samples', 
+        {model: User, as: 'User'}
+      ]})
       res.json(profiles)
     } else {
       throw new Error('not authorized')

@@ -55,7 +55,7 @@ async function update(req, res) {
 async function deleteSample(req, res) {
   try {
     const sample = await Sample.findByPk(req.params.id)
-    if (sample.profileId === req.user.profile.id) {
+    if (sample.profileId === req.user.profile.id || req.user.admin) {
       await sample.destroy()
       res.status(200).json(sample)
     } else {

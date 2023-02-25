@@ -3,7 +3,12 @@ const { Sample, Profile } = require('../models')
 async function index(req, res) {
   try {
     if (req.user.authorized) {
-      const samples = await Sample.findAll({include: ['Profile']})
+      const samples = await Sample.findAll({
+        include: ['Profile'],
+        order: [
+          ['id', 'DESC']
+        ]
+      })
       res.status(200).json(samples)
     } else {
       throw new error('not authorized')

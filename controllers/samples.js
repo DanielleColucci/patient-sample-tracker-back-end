@@ -1,4 +1,4 @@
-const { Sample, Profile } = require('../models')
+const { Sample } = require('../models')
 
 async function index(req, res) {
   try {

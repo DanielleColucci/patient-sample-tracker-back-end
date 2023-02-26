@@ -76,7 +76,13 @@ async function updateAdmin(req, res) {
       const user = await User.findByPk(req.params.userId)
       user.admin = !user.admin
       await user.save()
-      res.status(201).json(user)
+      const updatedProfile = await Profile.findOne({
+        where: {
+          userId: user.id
+        }, 
+        include: [{model: User, as: 'User'}]
+      })
+      res.status(201).json(updatedProfile)
     } else {
       throw new Error('no admin status')
     }
